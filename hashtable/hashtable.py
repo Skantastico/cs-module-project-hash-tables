@@ -64,7 +64,7 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
-        h = 5381 # arbitrary largeish prime number to initialize
+        hash = 5381 # arbitrary largeish prime number to initialize
 
         for c in key:
             hash = (hash * 33) + ord(c)
