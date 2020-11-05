@@ -133,8 +133,30 @@ class HashTable:
         Implement this.
         """
 
-        self.put(key, None)
-        self.size -= 1 # remove it
+        index = self.hash_index(key)
+
+        current_node = self.HashTable[index]
+        prev_node = None
+
+        while current_node != None:
+            if current_node.get_key() == key:
+                self.count -= 1
+
+                if prev_node == None:
+                    current_node.set_value(None)
+                else:
+                    prev_node.set_value(current_node.get_next())
+
+            prev_node = current_node
+            current_node = current_node.get_next()
+
+        if self.get_load_factor() < 0.2:
+            new_capacity = self.capacity // 2
+
+            if new_capacity < MIN_CAPACITY:
+                self.resize(MIN_CAPACITY)
+            else:
+                self.resize(new_capacity)
 
 
     def get(self, key):
@@ -145,17 +167,15 @@ class HashTable:
 
         Implement this.
         """
-        idx = self.hash_index(key)
-        node = self.HashTable[idx]
+        index = self.hash_index(key)
+        current_node = self.HashTable[index]
 
-        while node is not None and node.key != key:
-            node = node.next
+        while current_node != None:
+            if current_node.get_key() == key:
+                return current_node.get_value()
+            current_node = current_node.get_next()
 
-        if node is None:
-            return None
-
-        else:
-            return node.value
+        return None
 
 
     def resize(self, new_capacity):
@@ -165,8 +185,16 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        prev_table = self.HashTable
+        self.HashTable = [None] * new_capacity
+        self.capacity = new_capacity
 
+        for index in range(len(prev_table)):
+            current_node = prev_table[index]
+
+            while current_node != None:
+                self.put(current_node.get_key(), current_node.get_value())
+                current_node = current_node.get_next()
 
 
 if __name__ == "__main__":
