@@ -81,5 +81,3 @@ full-featured.)
 * [Histogram](applications/histo/)
 * [Cracking Caesar Ciphers](applications/crack_caesar/)
 * [Sum and Difference](applications/sumdiff/)
-
-# Loren Ipsum Test Check
